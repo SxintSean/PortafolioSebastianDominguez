@@ -8,6 +8,7 @@ export const techStack = {
     { name: 'JavaScript', icon: devicon('javascript/javascript-original.svg') },
     { name: 'TypeScript', icon: devicon('typescript/typescript-original.svg') },
     { name: 'Kotlin',     icon: devicon('kotlin/kotlin-original.svg') },
+    { name: 'C#',         icon: devicon('csharp/csharp-original.svg') },
     { name: 'C++',        icon: devicon('cplusplus/cplusplus-original.svg') },
   ],
   backend: [

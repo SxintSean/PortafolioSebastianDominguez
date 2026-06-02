@@ -22,6 +22,7 @@ const ICON_POSITIONS = [
   { top: 88, left: 54, size: 50, anim: 2, delay:   -6 },
   { top: 20, left: 92, size: 44, anim: 3, delay:   -4 },
   { top: 75, left: 32, size: 46, anim: 1, delay:   -8 },
+  { top: 48, left: 18, size: 48, anim: 5, delay:   -6 },
 ];
 
 const ALL_TECH = [
