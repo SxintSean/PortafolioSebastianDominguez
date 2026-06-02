@@ -1,0 +1,294 @@
+@import "tailwindcss";
+
+@theme { --font-sans: 'Inter', system-ui, sans-serif; }
+
+/* ══════════════════════════════════════════════════════════════
+   DESIGN TOKENS  —  light mode defaults
+══════════════════════════════════════════════════════════════ */
+:root {
+  /* Text — light mode: near-black hierarchy */
+  --c-h: #0a0a0a;
+  --c-b: #111111;
+  --c-m: #333333;
+  --c-f: #666666;
+  --c-sage: #3a6828;
+  --c-caramel: #7a5020;
+
+  /* Page */
+  --c-bg: #ffffff;
+  --c-scrollbar: rgba(108,185,88,0.45);
+
+  /* Gradient text — darker for contrast on white bg */
+  --grad-a: #2d5a1e;
+  --grad-b: #7a4810;
+
+  /* Glass — light */
+  --glass-bg:       rgba(255,255,255,0.08);
+  --glass-border:   rgba(255,255,255,0.52);
+  --glass-spec:     rgba(255,255,255,0.96);
+  --glass-rim:      rgba(255,255,255,0.20);
+  --glass-shadow:   rgba(60,48,32,0.11);
+  --glass-grad-a:   rgba(255,255,255,0.26);
+  --glass-grad-b:   rgba(0,0,0,0.02);
+  --nav-bg:         rgba(255,255,255,0.12);
+
+  /* Input fields */
+  --field-bg:       rgba(255,255,255,0.22);
+  --field-border:   rgba(255,255,255,0.55);
+  --dropdown-bg:    rgba(252,250,247,0.68);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   DARK MODE TOKENS
+══════════════════════════════════════════════════════════════ */
+[data-theme="dark"] {
+  /* Text — dark mode: white hierarchy */
+  --c-h: #ffffff;
+  --c-b: #f0ece8;
+  --c-m: #d8d4ce;
+  --c-f: #a09890;
+  --c-sage: #90c878;
+  --c-caramel: #c89858;
+
+  --c-bg: #080c10;
+  --c-scrollbar: rgba(80,185,80,0.45);
+
+  --grad-a: #72b860;
+  --grad-b: #c89848;
+
+  /* Glass — dark (less white, more subtle specular) */
+  --glass-bg:       rgba(255,255,255,0.05);
+  --glass-border:   rgba(255,255,255,0.11);
+  --glass-spec:     rgba(255,255,255,0.22);
+  --glass-rim:      rgba(255,255,255,0.08);
+  --glass-shadow:   rgba(0,0,0,0.30);
+  --glass-grad-a:   rgba(255,255,255,0.10);
+  --glass-grad-b:   rgba(0,0,0,0.05);
+  --nav-bg:         rgba(8,12,16,0.35);
+
+  --field-bg:       rgba(255,255,255,0.06);
+  --field-border:   rgba(255,255,255,0.12);
+  --dropdown-bg:    rgba(10,14,22,0.80);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   BASE
+══════════════════════════════════════════════════════════════ */
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+*, *::before, *::after { cursor: none !important; }
+
+body {
+  margin: 0;
+  background: var(--c-bg);
+  color: var(--c-h);
+  font-family: 'Inter', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  transition: background 0.4s ease, color 0.4s ease;
+}
+
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--c-scrollbar); border-radius: 9999px; }
+
+input::placeholder, textarea::placeholder { color: var(--c-m); opacity: 0.7; }
+
+/* ══════════════════════════════════════════════════════════════
+   iOS 26 LIQUID GLASS
+══════════════════════════════════════════════════════════════ */
+.glass {
+  position: relative;
+  background: var(--glass-bg);
+  backdrop-filter: blur(48px) saturate(420%) brightness(1.12);
+  -webkit-backdrop-filter: blur(48px) saturate(420%) brightness(1.12);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  overflow: hidden;
+  /* Specular + prismatic edge shadows */
+  box-shadow:
+    inset 0 1.5px 0    var(--glass-spec),
+    inset 0 0 0 0.5px  var(--glass-rim),
+    inset 0 -1px 0     rgba(0,0,0,0.055),
+    /* Prismatic: cool blue left edge, warm right edge */
+    inset 1.5px 0 0    rgba(200,230,255,0.18),
+    inset -1px 0 0     rgba(255,210,170,0.12),
+    0 0 0 0.75px       var(--glass-rim),
+    0 8px 40px         var(--glass-shadow),
+    0 2px 8px          rgba(0,0,0,0.055);
+  transition: transform 0.28s ease, box-shadow 0.28s ease, background 0.4s ease, border-color 0.4s ease;
+}
+
+/* Layer 1 — glass surface: bright lens highlight top-left + gradient */
+.glass::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse at 12% 0%, rgba(255,255,255,0.24) 0%, transparent 48%),
+    linear-gradient(158deg, var(--glass-grad-a) 0%, rgba(255,255,255,0.05) 42%, transparent 62%, var(--glass-grad-b) 100%);
+}
+
+/* Layer 2 — chromatic refraction zones at corners (always visible) */
+.glass::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse at 88% 104%, rgba(255,215,150,0.08) 0%, transparent 42%),
+    radial-gradient(ellipse at 0%  100%, rgba(180,215,255,0.07) 0%, transparent 38%);
+  transition: opacity 0.25s ease;
+}
+.glass:hover::after { opacity: 1.4; }
+
+.glass > * { position: relative; z-index: 1; }
+
+/* ── Hover glow — glass cards get brighter background ── */
+
+/* Small interactive elements: outer white drop-shadow glow */
+a, button {
+  transition: filter 0.22s ease, transform 0.22s ease, color 0.22s ease, background 0.22s ease;
+}
+a:hover, button:hover {
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.22));
+}
+
+.glass:hover {
+  transform: translateY(-3px);
+  background: rgba(255, 255, 255, 0.15); /* brighter on hover — the illumination effect */
+  box-shadow:
+    inset 0 1.5px 0    var(--glass-spec),
+    inset 0 0 0 0.5px  var(--glass-rim),
+    inset 0 -1px 0     rgba(0,0,0,0.055),
+    0 0 0 0.75px       var(--glass-rim),
+    0 18px 56px        var(--glass-shadow),
+    0 4px 14px         rgba(0,0,0,0.07);
+}
+
+.glass-nav {
+  position: relative;
+  background: var(--nav-bg);
+  backdrop-filter: blur(48px) saturate(420%) brightness(1.12);
+  -webkit-backdrop-filter: blur(48px) saturate(420%) brightness(1.12);
+  border: 1px solid var(--glass-border);
+  box-shadow:
+    inset 0 1.5px 0   var(--glass-spec),
+    inset 0 0 0 0.5px var(--glass-rim),
+    inset 0 -1px 0    rgba(0,0,0,0.04),
+    0 0 0 0.75px      var(--glass-rim),
+    0 4px 24px        var(--glass-shadow);
+  transition: background 0.4s ease, border-color 0.4s ease;
+}
+
+/* ─── Gradient text ─────────────────────── */
+.gradient-text {
+  background: linear-gradient(135deg, var(--grad-a), var(--grad-b));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   BACKGROUND BLOBS
+══════════════════════════════════════════════════════════════ */
+@keyframes bg-shift {
+  0%   { filter: hue-rotate(0deg); }
+  50%  { filter: hue-rotate(10deg); }
+  100% { filter: hue-rotate(-8deg); }
+}
+@keyframes float-blob-1 {
+  0%   { transform: translate(0,0) scale(1); }
+  25%  { transform: translate(90px,-110px) scale(1.12); }
+  50%  { transform: translate(140px,60px)  scale(0.92); }
+  75%  { transform: translate(-60px,100px) scale(1.08); }
+  100% { transform: translate(0,0) scale(1); }
+}
+@keyframes float-blob-2 {
+  0%   { transform: translate(0,0) scale(1); }
+  30%  { transform: translate(-120px,80px)  scale(0.88); }
+  60%  { transform: translate(-60px,-90px)  scale(1.10); }
+  100% { transform: translate(0,0) scale(1); }
+}
+@keyframes float-blob-3 {
+  0%   { transform: translate(0,0) scale(1); }
+  33%  { transform: translate(80px,-100px) scale(1.09); }
+  66%  { transform: translate(-70px,80px)  scale(0.93); }
+  100% { transform: translate(0,0) scale(1); }
+}
+@keyframes float-blob-4 {
+  0%   { transform: translate(0,0) scale(1); }
+  40%  { transform: translate(-100px,-80px) scale(1.11); }
+  80%  { transform: translate(80px,110px)   scale(0.91); }
+  100% { transform: translate(0,0) scale(1); }
+}
+.blob-1 { animation: float-blob-1 14s ease-in-out infinite; }
+.blob-2 { animation: float-blob-2 17s ease-in-out infinite; }
+.blob-3 { animation: float-blob-3 20s ease-in-out infinite; }
+.blob-4 { animation: float-blob-4 15s ease-in-out infinite; }
+
+/* ══════════════════════════════════════════════════════════════
+   TECH ICON FLOATS
+══════════════════════════════════════════════════════════════ */
+@keyframes float-tech-1 {
+  0%,100% { transform: translate(0,0) rotate(0deg); }
+  25% { transform: translate(14px,-22px) rotate(7deg); }
+  75% { transform: translate(-10px,14px) rotate(-5deg); }
+}
+@keyframes float-tech-2 {
+  0%,100% { transform: translate(0,0) rotate(0deg); }
+  33% { transform: translate(-18px,-14px) rotate(-8deg); }
+  66% { transform: translate(12px,18px) rotate(4deg); }
+}
+@keyframes float-tech-3 {
+  0%,100% { transform: translate(0,0) rotate(0deg); }
+  40% { transform: translate(20px,10px) rotate(6deg); }
+  80% { transform: translate(-14px,-18px) rotate(-4deg); }
+}
+@keyframes float-tech-4 {
+  0%,100% { transform: translate(0,0) rotate(0deg); }
+  30% { transform: translate(-16px,20px) rotate(-6deg); }
+  70% { transform: translate(18px,-12px) rotate(9deg); }
+}
+@keyframes float-tech-5 {
+  0%,100% { transform: translate(0,0) rotate(0deg); }
+  20% { transform: translate(10px,-16px) rotate(-3deg); }
+  60% { transform: translate(-20px,8px) rotate(6deg); }
+}
+.float-tech-1 { animation: float-tech-1 14s ease-in-out infinite; }
+.float-tech-2 { animation: float-tech-2 17s ease-in-out infinite; }
+.float-tech-3 { animation: float-tech-3 19s ease-in-out infinite; }
+.float-tech-4 { animation: float-tech-4 22s ease-in-out infinite; }
+.float-tech-5 { animation: float-tech-5 16s ease-in-out infinite; }
+
+/* ══════════════════════════════════════════════════════════════
+   MARQUEE
+══════════════════════════════════════════════════════════════ */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.marquee-track { display: flex; width: max-content; animation: marquee 24s linear infinite; }
+.marquee-track:hover { animation-play-state: paused; }
+
+/* ══════════════════════════════════════════════════════════════
+   ENTRANCE
+══════════════════════════════════════════════════════════════ */
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-in-up { animation: fade-in-up 0.65s ease forwards; }
+.delay-100  { animation-delay: 0.10s; opacity: 0; }
+.delay-200  { animation-delay: 0.20s; opacity: 0; }
+.delay-300  { animation-delay: 0.30s; opacity: 0; }
+.delay-400  { animation-delay: 0.40s; opacity: 0; }
+.delay-500  { animation-delay: 0.50s; opacity: 0; }
+.delay-600  { animation-delay: 0.60s; opacity: 0; }
+
+.section-reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.65s ease, transform 0.65s ease; }
+.section-reveal.visible { opacity: 1; transform: translateY(0); }

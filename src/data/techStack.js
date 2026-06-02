@@ -1,0 +1,32 @@
+const devicon = (name) =>
+  `https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${name}`;
+
+export const techStack = {
+  languages: [
+    { name: 'PHP',        icon: devicon('php/php-original.svg') },
+    { name: 'Python',     icon: devicon('python/python-original.svg') },
+    { name: 'JavaScript', icon: devicon('javascript/javascript-original.svg') },
+    { name: 'TypeScript', icon: devicon('typescript/typescript-original.svg') },
+    { name: 'C++',        icon: devicon('cplusplus/cplusplus-original.svg') },
+  ],
+  backend: [
+    { name: 'Laravel',    icon: devicon('laravel/laravel-original.svg') },
+    { name: 'Node.js',    icon: devicon('nodejs/nodejs-original.svg') },
+    { name: 'Express.js', icon: devicon('express/express-original.svg') },
+  ],
+  frontend: [
+    { name: 'React',         icon: devicon('react/react-original.svg') },
+    { name: 'Tailwind CSS',  icon: devicon('tailwindcss/tailwindcss-original.svg') },
+    { name: 'Bootstrap',     icon: devicon('bootstrap/bootstrap-original.svg') },
+  ],
+  databases: [
+    { name: 'PostgreSQL', icon: devicon('postgresql/postgresql-original.svg') },
+    { name: 'MySQL',      icon: devicon('mysql/mysql-original.svg') },
+    { name: 'SQLite',     icon: devicon('sqlite/sqlite-original.svg') },
+  ],
+  devops: [
+    { name: 'AWS',    icon: devicon('amazonwebservices/amazonwebservices-plain-wordmark.svg') },
+    { name: 'Docker', icon: devicon('docker/docker-original.svg') },
+    { name: 'Linux',  icon: devicon('linux/linux-original.svg') },
+  ],
+};
