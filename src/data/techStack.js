@@ -7,6 +7,7 @@ export const techStack = {
     { name: 'Python',     icon: devicon('python/python-original.svg') },
     { name: 'JavaScript', icon: devicon('javascript/javascript-original.svg') },
     { name: 'TypeScript', icon: devicon('typescript/typescript-original.svg') },
+    { name: 'Kotlin',     icon: devicon('kotlin/kotlin-original.svg') },
     { name: 'C++',        icon: devicon('cplusplus/cplusplus-original.svg') },
   ],
   backend: [
@@ -15,6 +16,7 @@ export const techStack = {
     { name: 'Express.js', icon: devicon('express/express-original.svg') },
   ],
   frontend: [
+    { name: 'HTML',          icon: devicon('html5/html5-original.svg') },
     { name: 'React',         icon: devicon('react/react-original.svg') },
     { name: 'Tailwind CSS',  icon: devicon('tailwindcss/tailwindcss-original.svg') },
     { name: 'Bootstrap',     icon: devicon('bootstrap/bootstrap-original.svg') },
