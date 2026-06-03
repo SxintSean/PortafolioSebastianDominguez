@@ -143,13 +143,13 @@ function ProjectModal({ project, lang, onClose }) {
               style={{ background: project.accent, border: `1px solid ${project.accentBorder}` }}>
               <Icon width={20} height={20} style={{ color: project.iconColor }} />
             </div>
-            <h3 className="font-bold text-lg leading-snug truncate" style={{ color: 'var(--c-h)' }}>{title}</h3>
+            <h3 className="font-bold text-lg leading-snug truncate" style={{ color: 'rgba(255,255,255,0.95)' }}>{title}</h3>
           </div>
           <button
             onClick={onClose}
             aria-label="Cerrar"
             className="shrink-0 flex items-center justify-center rounded-full transition-opacity duration-150 hover:opacity-70"
-            style={{ width: '34px', height: '34px', background: 'rgba(255,255,255,0.10)', border: '1px solid rgba(255,255,255,0.18)', color: 'var(--c-m)' }}
+            style={{ width: '34px', height: '34px', background: 'rgba(255,255,255,0.10)', border: '1px solid rgba(255,255,255,0.18)', color: 'rgba(255,255,255,0.70)' }}
           >
             <IconX width={16} height={16} />
           </button>
@@ -165,16 +165,7 @@ function ProjectModal({ project, lang, onClose }) {
           objectFit="contain"
         />
 
-        <p className="text-sm leading-relaxed" style={{ color: 'var(--c-m)' }}>{description}</p>
-
-        <div className="flex flex-wrap gap-2">
-          {project.tags.map((tag) => (
-            <span key={tag} className="text-xs rounded-full px-3 py-1 font-medium"
-              style={{ background: project.accent, border: `1px solid ${project.accentBorder}`, color: project.iconColor }}>
-              {tag}
-            </span>
-          ))}
-        </div>
+        <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.80)' }}>{description}</p>
       </div>
     </div>
   );
