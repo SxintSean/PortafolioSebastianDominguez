@@ -23,6 +23,10 @@ const ICON_POSITIONS = [
   { top: 20, left: 92, size: 44, anim: 3, delay:   -4 },
   { top: 75, left: 32, size: 46, anim: 1, delay:   -8 },
   { top: 48, left: 18, size: 48, anim: 5, delay:   -6 },
+  { top: 15, left: 50, size: 42, anim: 2, delay:   -3 },
+  { top: 90, left: 78, size: 46, anim: 4, delay:   -7 },
+  { top: 52, left: 96, size: 44, anim: 1, delay:   -5 },
+  { top: 38, left: 75, size: 50, anim: 3, delay:  -11 },
 ];
 
 const ALL_TECH = [
@@ -31,6 +35,7 @@ const ALL_TECH = [
   ...techStack.frontend,
   ...techStack.databases,
   ...techStack.devops,
+  ...techStack.tools,
 ];
 
 export default function TechStack() {
@@ -60,7 +65,7 @@ export default function TechStack() {
           <span className="gradient-text">{s.title}</span>
         </h2>
         <p className="text-sm mb-12" style={{ color: 'var(--c-m)' }}>
-          {c.languages} · {c.backend} · {c.frontend} · {c.databases} · {c.devops}
+          {c.languages} · {c.backend} · {c.frontend} · {c.databases} · {c.devops} · {c.tools}
         </p>
         <div className="flex flex-wrap justify-center gap-3">
           {ALL_TECH.map((tech) => (

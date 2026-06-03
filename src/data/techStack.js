@@ -32,4 +32,10 @@ export const techStack = {
     { name: 'Docker', icon: devicon('docker/docker-original.svg') },
     { name: 'Linux',  icon: devicon('linux/linux-original.svg') },
   ],
+  tools: [
+    { name: 'npm',        icon: devicon('npm/npm-original-wordmark.svg') },
+    { name: 'Vercel',     icon: devicon('vercel/vercel-original.svg') },
+    { name: 'VirtualBox', icon: devicon('virtualbox/virtualbox-original.svg') },
+    { name: 'MS Office',  icon: devicon('microsoftoffice/microsoftoffice-plain.svg') },
+  ],
 };

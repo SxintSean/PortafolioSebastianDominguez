@@ -40,6 +40,7 @@ export const translations = {
         frontend: 'Frontend',
         databases: 'Databases',
         devops: 'DevOps & Cloud',
+        tools: 'Tools',
       },
     },
     projects: {
@@ -112,6 +113,7 @@ export const translations = {
         frontend: 'Frontend',
         databases: 'Bases de Datos',
         devops: 'DevOps y Nube',
+        tools: 'Herramientas',
       },
     },
     projects: {
