@@ -17,7 +17,12 @@ const PROJECTS = [
     accent: 'rgba(108,185,88,0.18)',
     accentBorder: 'rgba(108,185,88,0.35)',
     iconColor: 'var(--c-sage)',
-    images: [],
+    images: [
+      '/Img/P.O.S/P.O.S 1.png',
+      '/Img/P.O.S/P.O.S 2.png',
+      '/Img/P.O.S/P.O.S 3.png',
+      '/Img/P.O.S/P.O.S 4.png',
+    ],
   },
   {
     Icon: IconTag,
