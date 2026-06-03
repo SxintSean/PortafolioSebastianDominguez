@@ -34,7 +34,12 @@ const PROJECTS = [
     accent: 'rgba(210,158,48,0.18)',
     accentBorder: 'rgba(210,158,48,0.35)',
     iconColor: 'var(--c-caramel)',
-    images: [],
+    images: [
+      '/Img/Nexus/NEXUS 1.png',
+      '/Img/Nexus/NEXUS 2.png',
+      '/Img/Nexus/NEXUS 3.png',
+      '/Img/Nexus/NEXUS 4.png',
+    ],
   },
   {
     Icon: IconMonitor,
