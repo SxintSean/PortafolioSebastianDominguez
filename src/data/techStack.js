@@ -33,6 +33,7 @@ export const techStack = {
     { name: 'Linux',  icon: devicon('linux/linux-original.svg') },
   ],
   tools: [
+    { name: 'Git',        icon: devicon('git/git-original.svg') },
     { name: 'npm',        icon: devicon('npm/npm-original-wordmark.svg') },
     { name: 'Vercel',     icon: devicon('vercel/vercel-original.svg') },
     { name: 'VirtualBox', icon: devicon('virtualbox/virtualbox-original.svg') },
