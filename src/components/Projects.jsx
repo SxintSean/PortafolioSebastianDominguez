@@ -126,14 +126,6 @@ function ProjectCard({ project, lang }) {
         </div>
       </div>
 
-      <div className="flex flex-wrap gap-1.5">
-        {project.tags.map((tag) => (
-          <span key={tag} className="px-2.5 py-0.5 rounded-full text-xs font-medium"
-            style={{ background: project.accent, border: `1px solid ${project.accentBorder}`, color: 'var(--c-b)' }}>
-            {tag}
-          </span>
-        ))}
-      </div>
     </div>
   );
 }
