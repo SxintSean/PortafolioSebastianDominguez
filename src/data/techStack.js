@@ -37,6 +37,5 @@ export const techStack = {
     { name: 'npm',        icon: devicon('npm/npm-original-wordmark.svg') },
     { name: 'Vercel',     icon: devicon('vercel/vercel-original.svg') },
     { name: 'VirtualBox', icon: 'https://cdn.simpleicons.org/virtualbox/183A61' },
-    { name: 'MS Office',  icon: 'https://cdn.simpleicons.org/microsoftoffice/D83B01' },
   ],
 };
