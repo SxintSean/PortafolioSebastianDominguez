@@ -54,16 +54,33 @@ export default function CertsContact() {
   const ct = t.certifications;
   const co = t.contact;
 
-  const [form, setForm] = useState({ name:'', email:'', message:'' });
-  const [sent, setSent] = useState(false);
+  const [form,    setForm]    = useState({ name:'', email:'', message:'' });
+  const [sent,    setSent]    = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error,   setError]   = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const subject = encodeURIComponent(`Portfolio Contact — ${form.name}`);
-    const body    = encodeURIComponent(`Name: ${form.name}\nEmail: ${form.email}\n\nMessage:\n${form.message}`);
-    window.open(`mailto:dosmildosmo1999@gmail.com?subject=${subject}&body=${body}`);
-    setSent(true);
-    setTimeout(() => setSent(false), 3000);
+    setLoading(true);
+    setError('');
+    try {
+      const res = await fetch('/api/contact', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify(form),
+      });
+      if (res.ok) {
+        setSent(true);
+        setForm({ name:'', email:'', message:'' });
+        setTimeout(() => setSent(false), 4000);
+      } else {
+        setError('No se pudo enviar. Intenta de nuevo.');
+      }
+    } catch {
+      setError('No se pudo enviar. Intenta de nuevo.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -151,26 +168,32 @@ export default function CertsContact() {
                     style={inputStyle} />
                 </div>
 
-                <button type="submit"
+                {error && (
+                  <p className="text-xs text-center" style={{ color:'#e05050' }}>{error}</p>
+                )}
+
+                <button type="submit" disabled={loading}
                   className="glass w-full flex items-center justify-center gap-2 py-3 rounded-2xl font-semibold text-sm transition-all duration-200"
                   style={{
-                    color: sent ? 'var(--c-sage)' : 'var(--c-h)',
+                    color:      sent ? 'var(--c-sage)' : 'var(--c-h)',
                     background: sent ? 'rgba(108,185,88,0.15)' : 'var(--glass-bg)',
+                    opacity:    loading ? 0.7 : 1,
                   }}
-                  onMouseEnter={(e)=>{ e.currentTarget.style.transform='translateY(-1px)'; }}
+                  onMouseEnter={(e)=>{ if(!loading) e.currentTarget.style.transform='translateY(-1px)'; }}
                   onMouseLeave={(e)=>{ e.currentTarget.style.transform=''; }}>
                   {sent ? (
                     <>
-                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                        <polyline points="20 6 9 17 4 12" />
-                      </svg>
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12" /></svg>
                       Sent!
+                    </>
+                  ) : loading ? (
+                    <>
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ animation:'spin 1s linear infinite' }}><circle cx="12" cy="12" r="10" strokeOpacity="0.25"/><path d="M12 2a10 10 0 0 1 10 10"/></svg>
+                      Enviando...
                     </>
                   ) : (
                     <>
-                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <line x1="22" y1="2" x2="11" y2="13" /><polygon points="22 2 15 22 11 13 2 9 22 2" />
-                      </svg>
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
                       {co.form_send}
                     </>
                   )}
