@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useLang } from '../context/LanguageContext';
 import { useInView } from '../hooks/useInView';
 import {
   IconCart, IconTag, IconMonitor, IconGradCap,
-  IconChevronLeft, IconChevronRight, IconImage,
+  IconChevronLeft, IconChevronRight, IconImage, IconX,
 } from './Icons';
 
 const PROJECTS = [
@@ -62,7 +62,7 @@ const PROJECTS = [
   },
 ];
 
-function ImageGallery({ images, accent, accentBorder, Icon, iconColor }) {
+function ImageGallery({ images, accent, accentBorder, Icon, iconColor, height = 175, objectFit = 'cover' }) {
   const [idx, setIdx] = useState(0);
   const hasImages = images && images.length > 0;
 
@@ -72,7 +72,7 @@ function ImageGallery({ images, accent, accentBorder, Icon, iconColor }) {
   if (!hasImages) {
     return (
       <div className="rounded-2xl flex flex-col items-center justify-center gap-2"
-        style={{ height: '175px', background: `linear-gradient(135deg, ${accent}, var(--glass-bg))`, border: `1px solid ${accentBorder}` }}>
+        style={{ height: `${height}px`, background: `linear-gradient(135deg, ${accent}, var(--glass-bg))`, border: `1px solid ${accentBorder}` }}>
         <IconImage width={32} height={32} style={{ color: iconColor, opacity: 0.45 }} />
         <span className="text-xs" style={{ color: 'var(--c-m)', opacity: 0.7 }}>No images added yet</span>
       </div>
@@ -80,8 +80,8 @@ function ImageGallery({ images, accent, accentBorder, Icon, iconColor }) {
   }
 
   return (
-    <div className="relative rounded-2xl overflow-hidden" style={{ height: '175px' }}>
-      <img src={images[idx]} alt={`Screenshot ${idx + 1}`} className="w-full h-full object-cover" draggable={false} />
+    <div className="relative rounded-2xl overflow-hidden" style={{ height: `${height}px` }}>
+      <img src={images[idx]} alt={`Screenshot ${idx + 1}`} className="w-full h-full" style={{ objectFit }} draggable={false} />
       {images.length > 1 && (
         <>
           <button onClick={prev} aria-label="Previous"
@@ -111,13 +111,86 @@ function ImageGallery({ images, accent, accentBorder, Icon, iconColor }) {
   );
 }
 
-function ProjectCard({ project, lang }) {
+function ProjectModal({ project, lang, onClose }) {
+  const { Icon } = project;
+  const title       = lang === 'es' ? project.titleEs       : project.title;
+  const description = lang === 'es' ? project.descriptionEs : project.description;
+
+  useEffect(() => {
+    const onKey = (e) => { if (e.key === 'Escape') onClose(); };
+    document.addEventListener('keydown', onKey);
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      document.body.style.overflow = '';
+    };
+  }, [onClose]);
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6"
+      style={{ background: 'rgba(0,0,0,0.65)', backdropFilter: 'blur(14px)' }}
+      onClick={onClose}
+    >
+      <div
+        className="glass rounded-3xl p-6 flex flex-col gap-5 w-full max-w-2xl"
+        style={{ maxHeight: '90vh', overflowY: 'auto' }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="flex items-center justify-between gap-4">
+          <div className="flex items-center gap-3 min-w-0">
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
+              style={{ background: project.accent, border: `1px solid ${project.accentBorder}` }}>
+              <Icon width={20} height={20} style={{ color: project.iconColor }} />
+            </div>
+            <h3 className="font-bold text-lg leading-snug truncate" style={{ color: 'var(--c-h)' }}>{title}</h3>
+          </div>
+          <button
+            onClick={onClose}
+            aria-label="Cerrar"
+            className="shrink-0 flex items-center justify-center rounded-full transition-opacity duration-150 hover:opacity-70"
+            style={{ width: '34px', height: '34px', background: 'rgba(255,255,255,0.10)', border: '1px solid rgba(255,255,255,0.18)', color: 'var(--c-m)' }}
+          >
+            <IconX width={16} height={16} />
+          </button>
+        </div>
+
+        <ImageGallery
+          images={project.images}
+          accent={project.accent}
+          accentBorder={project.accentBorder}
+          Icon={Icon}
+          iconColor={project.iconColor}
+          height={400}
+          objectFit="contain"
+        />
+
+        <p className="text-sm leading-relaxed" style={{ color: 'var(--c-m)' }}>{description}</p>
+
+        <div className="flex flex-wrap gap-2">
+          {project.tags.map((tag) => (
+            <span key={tag} className="text-xs rounded-full px-3 py-1 font-medium"
+              style={{ background: project.accent, border: `1px solid ${project.accentBorder}`, color: project.iconColor }}>
+              {tag}
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ProjectCard({ project, lang, onOpen }) {
   const { Icon } = project;
   const title       = lang === 'es' ? project.titleEs       : project.title;
   const description = lang === 'es' ? project.descriptionEs : project.description;
 
   return (
-    <div className="glass rounded-3xl p-5 flex flex-col gap-4 shrink-0" style={{ width: '340px' }}>
+    <div
+      onClick={onOpen}
+      className="glass rounded-3xl p-5 flex flex-col gap-4 shrink-0 transition-transform duration-200 hover:scale-[1.02]"
+      style={{ width: '340px' }}
+    >
       <ImageGallery images={project.images} accent={project.accent} accentBorder={project.accentBorder} Icon={Icon} iconColor={project.iconColor} />
 
       <div className="flex items-start gap-3">
@@ -130,7 +203,6 @@ function ProjectCard({ project, lang }) {
           <p className="text-xs leading-relaxed mt-1" style={{ color: 'var(--c-m)' }}>{description}</p>
         </div>
       </div>
-
     </div>
   );
 }
@@ -140,24 +212,36 @@ export default function Projects() {
   const p = t.projects;
   const ref = useInView();
   const doubled = [...PROJECTS, ...PROJECTS];
+  const [selected, setSelected] = useState(null);
 
   return (
-    <section id="projects" className="py-24">
-      <div ref={ref} className="section-reveal">
-        <div className="max-w-6xl mx-auto px-6 mb-12 text-center">
-          <h2 className="text-3xl sm:text-4xl font-bold">
-            <span className="gradient-text">{p.title}</span>
-          </h2>
-        </div>
-        <div className="overflow-hidden"
-          style={{ WebkitMaskImage:'linear-gradient(90deg,transparent 0%,black 6%,black 94%,transparent 100%)', maskImage:'linear-gradient(90deg,transparent 0%,black 6%,black 94%,transparent 100%)' }}>
-          <div className="marquee-track gap-5 py-4 px-6">
-            {doubled.map((project, i) => (
-              <ProjectCard key={`${project.title}-${i}`} project={project} lang={lang} />
-            ))}
+    <>
+      <section id="projects" className="py-24">
+        <div ref={ref} className="section-reveal">
+          <div className="max-w-6xl mx-auto px-6 mb-12 text-center">
+            <h2 className="text-3xl sm:text-4xl font-bold">
+              <span className="gradient-text">{p.title}</span>
+            </h2>
+          </div>
+          <div className="overflow-hidden"
+            style={{ WebkitMaskImage:'linear-gradient(90deg,transparent 0%,black 6%,black 94%,transparent 100%)', maskImage:'linear-gradient(90deg,transparent 0%,black 6%,black 94%,transparent 100%)' }}>
+            <div className="marquee-track gap-5 py-4 px-6">
+              {doubled.map((project, i) => (
+                <ProjectCard
+                  key={`${project.title}-${i}`}
+                  project={project}
+                  lang={lang}
+                  onOpen={() => setSelected(project)}
+                />
+              ))}
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+
+      {selected && (
+        <ProjectModal project={selected} lang={lang} onClose={() => setSelected(null)} />
+      )}
+    </>
   );
 }
