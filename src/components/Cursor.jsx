@@ -1,6 +1,8 @@
 import { useEffect, useRef } from 'react';
+import { useTheme } from '../context/ThemeContext';
 
 export default function Cursor() {
+  const { dark } = useTheme();
   const orbRef  = useRef(null);
   const dotRef  = useRef(null);
   const pos     = useRef({ x: -100, y: -100 });
@@ -119,8 +121,10 @@ export default function Cursor() {
           pointerEvents: 'none',
           zIndex:        99999,
           willChange:    'transform',
-          background:    'rgba(255,255,255,0.92)',
-          boxShadow:     '0 0 8px rgba(108,185,88,0.65), 0 0 3px rgba(255,255,255,0.9)',
+          background:    dark ? 'rgba(255,255,255,0.92)' : 'rgba(20,20,20,0.88)',
+          boxShadow:     dark
+            ? '0 0 8px rgba(108,185,88,0.65), 0 0 3px rgba(255,255,255,0.9)'
+            : '0 0 8px rgba(0,0,0,0.25), 0 0 3px rgba(20,20,20,0.6)',
         }}
       />
     </>
