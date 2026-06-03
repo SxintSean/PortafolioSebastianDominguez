@@ -51,7 +51,12 @@ const PROJECTS = [
     accent: 'rgba(88,148,230,0.18)',
     accentBorder: 'rgba(88,148,230,0.35)',
     iconColor: '#5894e6',
-    images: [],
+    images: [
+      '/Img/Pajarito/PAJARITO 1.png',
+      '/Img/Pajarito/PAJARITO 2.png',
+      '/Img/Pajarito/PAJARITO 3.png',
+      '/Img/Pajarito/PAJARITO 4.png',
+    ],
   },
   {
     Icon: IconGradCap,
